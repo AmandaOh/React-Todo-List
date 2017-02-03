@@ -1,23 +1,18 @@
-import React from 'react'
+import React, {Component} from 'react'
 import './App.css'
 import {TodoForm, TodoList} from './components/todo'
 import {addTodo, generateId} from './components/lib/todoHelpers'
 
-class App extends React.Component {
-  constructor() {
-    super()
-    this.state = {
-      todos: [
-        {id: 1, name: 'Learn JSX', isComplete: true},
-        {id: 2, name: 'Build an awesome App', isComplete: false},
-        {id: 3, name: 'Ship It!', isComplete: false}
-      ],
-      currentTodo: ''
-    }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleEmptySubmit = this.handleEmptySubmit.bind(this)
+class App extends Component {
+  state = {
+    todos: [
+      {id: 1, name: 'Learn JSX', isComplete: true},
+      {id: 2, name: 'Build an awesome App', isComplete: false},
+      {id: 3, name: 'Ship It!', isComplete: false}
+    ],
+    currentTodo: ''
   }
-  handleSubmit (e) {
+  handleSubmit = (e) => {
     e.preventDefault()
     const newId = generateId()
     const newTodo = {id: newId, name: this.state.currentTodo, isComplete: false}
@@ -28,13 +23,13 @@ class App extends React.Component {
       errorMessage: ''
     })
   }
-  handleEmptySubmit (e) {
+  handleEmptySubmit = (e) => {
     e.preventDefault()
     this.setState({
       errorMessage: 'Please supply a todo name'
     })
   }
-  handleInputChange (e) {
+  handleInputChange = (e) => {
     this.setState({
       currentTodo: e.target.value
     })
@@ -48,7 +43,7 @@ class App extends React.Component {
         </div>
         <div className="Todo-App">
           {this.state.errorMessage && <span className='error'>{this.state.errorMessage}</span>}
-          <TodoForm handleInputChange={this.handleInputChange.bind(this)} currentTodo={this.state.currentTodo}
+          <TodoForm handleInputChange={this.handleInputChange} currentTodo={this.state.currentTodo}
           handleSubmit={submitHandler}/>
           <TodoList todos={this.state.todos}/>
         </div>
