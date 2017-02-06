@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import './App.css'
-import {TodoForm, TodoList} from './components/todo'
-import {addTodo, generateId} from './components/lib/todoHelpers'
+import {TodoForm, TodoList, Footer} from './components/todo'
+import {addTodo, generateId, findById, toggleTodo, updateTodo, removeTodo} from './components/lib/todoHelpers'
+import {pipe, partial} from './components/lib/utils'
 
 class App extends Component {
   state = {
@@ -12,6 +13,20 @@ class App extends Component {
     ],
     currentTodo: ''
   }
+  handleRemove = (id, evt) => {
+    evt.preventDefault()
+    const updatedTodos = removeTodo(this.state.todos, id)
+    this.setState({todos: updatedTodos})
+  }
+
+  handleToggle = (id) => {
+    const getUpdatedTodos = pipe(findById, toggleTodo, partial(updateTodo, this.state.todos))
+    const updatedTodos = getUpdatedTodos(id, this.state.todos)
+    this.setState({
+      todos: updatedTodos
+    })
+  }
+
   handleSubmit = (e) => {
     e.preventDefault()
     const newId = generateId()
@@ -45,7 +60,8 @@ class App extends Component {
           {this.state.errorMessage && <span className='error'>{this.state.errorMessage}</span>}
           <TodoForm handleInputChange={this.handleInputChange} currentTodo={this.state.currentTodo}
           handleSubmit={submitHandler}/>
-          <TodoList todos={this.state.todos}/>
+          <TodoList handleToggle={this.handleToggle} todos={this.state.todos} handleRemove={this.handleRemove}/>
+          <Footer />
         </div>
       </div>
     )
