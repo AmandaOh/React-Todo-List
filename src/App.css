@@ -32,6 +32,10 @@ span.delete-item a {
   color: red;
 }
 
+.success{
+  color: green;
+}
+
 .Footer a {
   padding-left: 2px;
   padding-right: 2px;
