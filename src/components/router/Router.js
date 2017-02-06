@@ -23,6 +23,13 @@ export class Router extends Component {
       linkHandler: this.handleLinkClick
     }
   }
+
+  componentDidMount() {
+    window.onpopstate = () => {
+      this.setState({route: getCurrentPath()})
+    }
+  }
+
   render () {
     return <div>{this.props.children}</div>
   }
